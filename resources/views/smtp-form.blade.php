@@ -19,7 +19,8 @@
 
         @if(session('error'))
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                <strong>Gagal!</strong> <p class="text-sm mt-1">{{ session('error') }}</p>
+                <strong class="block mb-1">Gagal!</strong>
+                <div class="text-sm mt-1 max-h-40 overflow-y-auto break-words whitespace-normal">{{ session('error') }}</div>
             </div>
         @endif
 
