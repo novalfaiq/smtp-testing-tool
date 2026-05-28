@@ -25,8 +25,9 @@ Route::post('/smtp-check', function (Request $request) {
     ]);
 
     try {
-        // Trik utama: Menimpa konfigurasi Laravel secara Real-time (Runtime)
+        // Override runtime config dan set default mailer ke smtp
         config([
+            'mail.default' => 'smtp',
             'mail.mailers.smtp.host' => $request->host,
             'mail.mailers.smtp.port' => $request->port,
             'mail.mailers.smtp.encryption' => $request->encryption === 'null' ? null : $request->encryption,
