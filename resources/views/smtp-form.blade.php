@@ -24,46 +24,63 @@
             </div>
         @endif
 
-        <form action="{{ url('/smtp-check') }}" method="POST" class="space-y-4">
+        <form id="smtpForm" action="{{ url('/smtp-check') }}" method="POST" class="space-y-4">
             @csrf
             <div>
                 <label class="block text-sm font-medium text-gray-700">SMTP Host</label>
-                <input type="text" name="host" value="smtp.gmail.com" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="text" name="host" value="{{ old('host', 'smtp.gmail.com') }}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Port</label>
-                <input type="number" name="port" value="587" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                <input type="number" name="port" value="{{ old('port', '587') }}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Encryption</label>
                 <select name="encryption" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
-                    <option value="tls">TLS</option>
-                    <option value="ssl">SSL</option>
-                    <option value="null">None</option>
+                    <option value="tls" {{ old('encryption', 'tls') === 'tls' ? 'selected' : '' }}>TLS</option>
+                    <option value="ssl" {{ old('encryption') === 'ssl' ? 'selected' : '' }}>SSL</option>
+                    <option value="null" {{ old('encryption') === 'null' ? 'selected' : '' }}>None</option>
                 </select>
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Email / Username</label>
-                <input type="email" name="username" placeholder="example.smtp@gmail.com" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                <input type="email" name="username" value="{{ old('username') }}" placeholder="example.smtp@gmail.com" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Password / App Password</label>
-                <input type="password" name="password" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                <input type="password" name="password" value="{{ old('password') }}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Kirim Email Test Ke (Penerima)</label>
-                <input type="email" name="to_email" placeholder="target_test@gmail.com" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                <input type="email" name="to_email" value="{{ old('to_email') }}" placeholder="target_test@gmail.com" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
             </div>
 
-            <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 font-semibold transition duration-200">
-                Cek Koneksi SMTP
-            </button>
+            <div class="flex gap-2">
+                <button type="submit" class="flex-1 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 font-semibold transition duration-200">
+                    Cek Koneksi SMTP
+                </button>
+                <button type="button" onclick="clearForm()" class="px-4 bg-gray-200 text-gray-700 p-2 rounded-md hover:bg-gray-300 font-semibold transition duration-200">
+                    Clear
+                </button>
+            </div>
         </form>
+
+        <script>
+            function clearForm() {
+                document.getElementById('smtpForm').reset();
+                document.querySelectorAll('#smtpForm input, #smtpForm select').forEach(el => {
+                    if (el.type !== 'hidden') {
+                        el.value = '';
+                    }
+                });
+                document.querySelector('#smtpForm select[name="encryption"]').value = 'tls';
+            }
+        </script>
     </div>
 
 </body>
