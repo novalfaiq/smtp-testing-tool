@@ -47,6 +47,6 @@ Route::post('/smtp-check', function (Request $request) {
 
     } catch (\Exception $e) {
         // Jika gagal, kembalikan ke halaman form beserta detail error dari mailer
-        return redirect('/smtp-form')->with('error', $e->getMessage());
+        return redirect('/smtp-form')->withInput()->with('error', $e->getMessage());
     }
 });
