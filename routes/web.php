@@ -43,7 +43,7 @@ Route::post('/smtp-check', function (Request $request) {
                     ->subject('Test SMTP Dinamis - Sukses');
         });
 
-        return redirect('/smtp-form')->with('success', 'Koneksi SMTP Sukses! Email test berhasil dikirim ke ' . $request->to_email);
+        return redirect('/smtp-form')->withInput()->with('success', 'Koneksi SMTP Sukses! Email test berhasil dikirim ke ' . $request->to_email);
 
     } catch (\Exception $e) {
         // Jika gagal, kembalikan ke halaman form beserta detail error dari mailer
